@@ -1,5 +1,5 @@
 """
-Breadth First Search
+Depth First Search - Recursive
 
 Time Complexity:
 O(V+E) - every vertex and every edge will be explored in the worst case.
@@ -7,46 +7,41 @@ O(E) may vary between O(1) and O(V^2) depending on how sparse the input graph is
 
 Space Complexity:
 O(v) - In addition to the space required for the graph data structure, you will also need a
-data structure to keep track of which nodes have already been added to the queue.
+data structure to keep track of which nodes have already been discovered.
 
 Considerations:
 * A graph can have cycles.
+* A graph can have more than one edge between nodes.
 * A graph can have self loops.
 * A graph can be disconnected
 * A graph can be directed or undirected
 
 Applications:
 Finding connected compondents in a graph
-Finding the shortest path between two nodes as measured by number of edges
+Topological sorting
 Determining if a graph is 2-colorable or bipartite
+Finding the bridges in a graph
+Finding strongly connected components in a directed graph
+Finding biconnected compoents
 
 Notes:
-Breadth first search is guaranteed to find a solution if one exists.
+DFS can be implemented recursively or iteratively. 
 DFS, however, can get lost in an infinite branch and never make it to a solution node.
 A search method is described as being complete if it is guaranteed to find a goal state if one exists. Breadth-first search is complete, but depth-first search is not.
 
 
 """
-from collections import deque
 
 from DataStructures.AdjacencyListUndirected import AdjacencyListUndirected
 
-def BFS(graph, v, discovered):
- 
-    q = deque()
-    discovered[v] = True
-    q.append(v)
- 
-    while q:
- 
-        v = q.popleft()
-        print(v, end=' ')
- 
-        for u in graph.adjList[v]:
-            if not discovered[u]:
-                discovered[u] = True
-                q.append(u)
- 
+def DFSRecursive(graph, v, discovered):
+  discovered[v] = True
+  print(v, end=' ')
+  
+  for u in graph.adjList[v]:
+    if not discovered[u]:
+      DFSRecursive(graph, u, discovered)
+
  
 if __name__ == '__main__':
  
@@ -66,5 +61,5 @@ if __name__ == '__main__':
     # cover all connected components of a graph
     for i in range(n):
         if not discovered[i]:
-            BFS(graph, i, discovered)
+            DFSRecursive(graph, i, discovered)
             print()
