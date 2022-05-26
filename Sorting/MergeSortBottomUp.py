@@ -7,6 +7,8 @@ to get down to single elements which are therefore sorted. Then the merge operat
 as we have to iterate through all the elements in the two lists we are merging. And we do the
 merge operation the number of times we split so the total running time is O(nlogn).
 
+O(nlogn) on average as well.
+
 Space Complexity:
 O(n) - Merge sort is not done in place so we need to allocate memory for storing the sorted output.
 
@@ -24,42 +26,57 @@ Can be used in external sorting.
 Notes:
 Merge sort is a stable sorting algorithm
 Merge sort is a divide and conquer algorithm.
+Merge sort is a comparison sort requiring a total ordering
 
 """
 
 def mergeSort(arr):
-    if len(arr) > 1:
-        mid = len(arr)//2
-        L = arr[:mid]
-        R = arr[mid:]
+ 
+    low = 0
+    high = len(arr) - 1
+ 
+    # copy the initial array
+    temp = arr[:]
+ 
+
+    # blocks of size m
+    m = 1
+    while m < len(arr):
+ 
+        for i in range(low, high, 2*m):
+            start = i
+            mid = i + m - 1
+            end = min(i + 2*m - 1, high)
+            merge(arr, temp, start, mid, end)
+ 
+        m = 2*m
+
+def merge(arr, temp, start, mid, end):
   
-        mergeSort(L)
-        mergeSort(R)
+    i = start
+    j = mid + 1
+    k = start
 
-        merge(L, R, arr)
-
-def merge(L, R, arr):
-  
-    i = j = k = 0
-
-    while i < len(L) and j < len(R):
-        if L[i] < R[j]:
-            arr[k] = L[i]
+    while i <= mid and j <= end:
+        if arr[i] < arr[j]:
+            temp[k] = arr[i]
             i += 1
         else:
-            arr[k] = R[j]
+            temp[k] = arr[j]
             j += 1
         k += 1
 
-    while i < len(L):
-        arr[k] = L[i]
+    while i <= mid:
+        temp[k] = arr[i]
         i += 1
         k += 1
 
-    while j < len(R):
-        arr[k] = R[j]
-        j += 1
-        k += 1
+# the second half items will already be in the right spot
+
+  # copy the updates back to original array
+    for i in range(start, end + 1):
+      arr[i] = temp[i]
+
   
 if __name__ == '__main__':
     arr = [0, -1, 11, 17, 5, 6, -5]

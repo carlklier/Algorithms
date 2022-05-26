@@ -7,6 +7,8 @@ to get down to single elements which are therefore sorted. Then the merge operat
 as we have to iterate through all the elements in the two lists we are merging. And we do the
 merge operation the number of times we split so the total running time is O(nlogn).
 
+O(nlogn) on average as well.
+
 Space Complexity:
 O(n) - Merge sort is not done in place so we need to allocate memory for storing the sorted output.
 
@@ -24,6 +26,7 @@ Can be used in external sorting.
 Notes:
 Merge sort is a stable sorting algorithm
 Merge sort is a divide and conquer algorithm.
+Merge sort is a comparison sort requiring a total ordering
 
 """
 
