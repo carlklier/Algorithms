@@ -2,6 +2,7 @@
 Quicksort - Hoare partition scheme
 
 TODO: Confirm when the worst case time complexity occurs
+TODO: Understand why we include the pivot element in the recursive call
 
 Time Complexity:
 O(n^2) - In the worst case, each partition will contain 1 less element than the previous
@@ -41,12 +42,15 @@ element repeatedly.
 
 def partition(arr, low, high):
   pivot = arr[(low + high)//2]
-  i = low
-  j = high
+  i = low - 1
+  j = high + 1
   
   while True:
+    i+=1
     while arr[i] < pivot:
       i+=1
+
+    j-=1  
     while arr[j] > pivot:
       j-=1
 
@@ -64,7 +68,8 @@ def quicksortHoare(arr, low, high):
   quicksortHoare(arr, p + 1, high)
   
 if __name__ == '__main__':
-    arr = [0, -1, 11, 17, 5, 6, -5]
+    # arr = [0, -1, 11, 17, 5, 6, -5]
+    arr = [1, 1, 1, 1, 1]
     print("starting array: ", arr)
     quicksortHoare(arr, 0, len(arr) - 1)
     print("sorted array: ", arr)
